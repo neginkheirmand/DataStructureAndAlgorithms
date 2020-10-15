@@ -15,3 +15,6 @@ def main():
             if listOfElements[i]+listOfElements[j]==k :
                 print("list[{}] = {}\nlist[{}] = {}\n{}+{}={}".format(i,listOfElements[i],j, listOfElements[j], listOfElements[i], listOfElements[j], k))
                 return
+    print("none of the elements in the list, can satisfy the condition specified")
+    
+main()
