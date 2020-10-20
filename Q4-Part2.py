@@ -20,14 +20,14 @@ def positionFinder(eList, num, start, end):
 
 
 def main():
-    numElements = int(input("please enter the number of elements in the list\n"))
+    numElements = int(input("size of the list?\n"))
     while numElements<=0:
-        numElements = int(input("please enter the number of elements in the list\n"))
-    listOfElements = input("enter the elements of the list in the next row(should be sorted from min to max)\n").split()
+        numElements = int(input("size of the list?\n"))
+    listOfElements = input("list entries(should be sorted from min to max)\n").split()
     for i in range(0, numElements):
         listOfElements[i] = int(listOfElements[i])
 
-    print("this scrypt should find numbers a and b in the sorted list specified that can satisfy the condition: a+b = k")
+    print("find a and b in the sorted list that can satisfy the condition: a+b = k")
     k = int(input("please enter k: "))
     for i in range(0, len(listOfElements) - 1 ):
         print(listOfElements[i])
