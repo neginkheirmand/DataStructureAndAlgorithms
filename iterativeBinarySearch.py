@@ -9,7 +9,7 @@ def main():
     print("find a and b in the sorted list that can satisfy the condition: a+b = k")
     k = int(input("please enter k: "))
     for i in range(0, n-1 ):
-        print(eList[i])
+        # print(eList[i])
         b = k - eList[i]    
         ##have the b, now we see if it exists in the array
         index = None
