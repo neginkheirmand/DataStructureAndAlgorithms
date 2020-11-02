@@ -56,12 +56,18 @@ class LinkedList:
 			self.head=None
 			self.middleNode=None
 			return
-		((self.middleNode).before).after=(self.middleNode).after
-		((self.middleNode).after).before = (self.middleNode).before
-		if self.sizeList%2==0:
-			self.middleNode = (self.middleNode).before
-		else:
-			self.middleNode=(self.middleNode).after
+		if self.sizeList>=2:
+			((self.middleNode).before).after=(self.middleNode).after
+			((self.middleNode).after).before = (self.middleNode).before
+			if self.sizeList%2==0:
+				self.middleNode = (self.middleNode).before
+			else:
+				self.middleNode=(self.middleNode).after
+			return
+		# the size of the list = 1
+		self.middleNode = self.head
+		(self.head).before = None  
+		
 		
 if __name__=='__main__': 
 	poshte = LinkedList()
