@@ -68,7 +68,6 @@ class LinkedList:
 		self.middleNode = self.head
 		(self.head).before = None  
 		
-		
 if __name__=='__main__': 
 	poshte = LinkedList()
 	inputForm = input().split()
