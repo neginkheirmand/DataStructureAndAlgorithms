@@ -25,4 +25,5 @@ def main():
             # and to count the other rotation we just add the repeatTimes  
             positionOfLocks[(i+repeatTimes)%len(positionOfLocks)]= positionOfLocks[(i+repeatTimes)%len(positionOfLocks)]%lockNumbers
             print(locks[(i+repeatTimes)%len(positionOfLocks)][positionOfLocks[(i+repeatTimes)%len(positionOfLocks)]], end='')
+
 main()
