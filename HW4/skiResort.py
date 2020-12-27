@@ -8,6 +8,41 @@ n=0
 m = 0
 output=[]
 
+class Node:
+    def __init__(self, r, c, h, g):
+        self.r = r
+        self.c = c
+        self.h = h
+        self.g = g
+
+    def updateGValue(self, newg):
+        if self.g< newg:
+            self.g = newg
+
+
+
+def getGvalue():
+    #the G value:  the movement cost to move from the starting point to a given square on the grid, following the path generated to get there.
+
+def getHvalue(rDestination, cDestination, r, c):
+    #the H value:  the estimated movement cost to move from that given square on the grid to the final destination.
+    #we can use the Pythagoras theorem to get the distance but i prefer this method 
+    return abs(rDestination-r)+abs(cDestination-c)
+
+    
+
+def getFvalue():
+
+
+def shortestPath(r1, c1, r2, c2):
+    #this method finds the shortest path between point in row r1 and column c1 of the map and point in row r2 and column c2
+    #and returns the distance of the shortest path available
+    #we dont need to keep the parent of each node, just update the distances if needed
+    openList = []
+    closedList = []
+
+     
+
 def mapIterator():
     print("iterate")
     
