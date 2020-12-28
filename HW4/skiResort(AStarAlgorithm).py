@@ -36,8 +36,6 @@ def containsNode(r, c, openedlist, newg):
             Node(openedlist[i]).updateGValue(newg) 
             return True
     return False
-            
-
 
 def getGvalue():
     #the G value:  the movement cost to move from the starting point to a given square on the grid, following the path generated to get there.
@@ -45,10 +43,24 @@ def getGvalue():
 
 
 def addNeighbours(openList, r, c, nodeG, rDestination, cDestination):
+#this method's function is to find the neighbours of the node in r, c and add them to the openList if they are not already in there
+# and update their g value in case we have find a shorter path to them 
+
     #upper neighbour( if existent and available and non-repetitive)
-    if r-1>=0 and map[r-1][c]!='X':
-        if not containsNode(r-1, c, openList, nodeG+1):
-            openList.append(Node(r-1, c, rDestination, cDestination, nodeG))
+    if r-1>=0 and map[r-1][c]!='X'and not containsNode(r-1, c, openList, nodeG+1):
+            openList.append(Node(r-1, c, rDestination, cDestination, nodeG+1))
+
+    #bottom neighbour( if existent and available and non-repetitive)
+    if r+1<n and map[r+1][c]!='x' and not containsNode(r+1, c, openList, nodeG+1):
+            openList.append(Node(r+1, c, rDestination, cDestination, nodeG+1))
+    
+    #left neighbour( if existent and available and non-repetitive)
+    if c-1>=0 and map[r][c-1]!='X' and not containsNode(r, c-1, openList, nodeG+1):
+        openList.append(Node(r, c-1, rDestination, cDestination, nodeG+1))
+
+    #right neighbour( if existent and available and non-repetitive)
+    if c+1<m and map[r][c+1]!='X' and not containsNode(r, c+1, openList, nodeG+1):
+        openList.append(Node(r, c+1, rDestination, cDestination, nodeG+1))
 
 def findBestNode(openList):
     #this methods find the best candidate to next move and returns its index in the open list
@@ -75,6 +87,8 @@ def shortestPath(rStart, cStart, r2, c2):
     openList.append(startNode)
     while len(open)!=0:
         indexBest = findBestNode(openList)
+        openList.pop(indexBest)
+
 
      
 
