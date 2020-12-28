@@ -42,25 +42,39 @@ def getGvalue():
     print("Gvalue")
 
 
-def addNeighbours(openList, r, c, nodeG, rDestination, cDestination):
+def addNeighbours(openList, parentNode, rDestination, cDestination):
 #this method's function is to find the neighbours of the node in r, c and add them to the openList if they are not already in there
 # and update their g value in case we have find a shorter path to them 
 
+    r = Node(parentNode).r
+    c = Node(parentNode).c
+    nodeG = Node(parentNode).g
+
     #upper neighbour( if existent and available and non-repetitive)
     if r-1>=0 and map[r-1][c]!='X'and not containsNode(r-1, c, openList, nodeG+1):
-            openList.append(Node(r-1, c, rDestination, cDestination, nodeG+1))
+        openList.append(Node(r-1, c, rDestination, cDestination, nodeG+1))
+        if r-1 ==rDestination and c == cDestination:
+            return True
+
 
     #bottom neighbour( if existent and available and non-repetitive)
     if r+1<n and map[r+1][c]!='x' and not containsNode(r+1, c, openList, nodeG+1):
-            openList.append(Node(r+1, c, rDestination, cDestination, nodeG+1))
-    
+        openList.append(Node(r+1, c, rDestination, cDestination, nodeG+1))
+        if r+1 == rDestination and c == cDestination:
+            return True
+
     #left neighbour( if existent and available and non-repetitive)
     if c-1>=0 and map[r][c-1]!='X' and not containsNode(r, c-1, openList, nodeG+1):
         openList.append(Node(r, c-1, rDestination, cDestination, nodeG+1))
+        if r == rDestination and c-1 == cDestination:
+            return True
 
     #right neighbour( if existent and available and non-repetitive)
     if c+1<m and map[r][c+1]!='X' and not containsNode(r, c+1, openList, nodeG+1):
         openList.append(Node(r, c+1, rDestination, cDestination, nodeG+1))
+        if r == rDestination and c+1 == cDestination:
+            return True
+    return False
 
 def findBestNode(openList):
     #this methods find the best candidate to next move and returns its index in the open list
@@ -76,6 +90,7 @@ def findBestNode(openList):
             hValue = Node(openList[i]).getHvalue()
             index = i
     return i
+    
 
 def shortestPath(rStart, cStart, r2, c2):
     #this method finds the shortest path between point in row r1 and column c1 of the map and point in row r2 and column c2
@@ -83,10 +98,16 @@ def shortestPath(rStart, cStart, r2, c2):
     #we dont need to keep the parent of each node, just update the distances if needed
     openList = []
     closedList = []
-    startNode = Node(rStart, cStart, r2, c2)
+    startNode = Node(rStart, cStart, r2, c2, 0)
     openList.append(startNode)
     while len(open)!=0:
         indexBest = findBestNode(openList)
+        done = addNeighbours(openList, openList[indexBest], r2, c2 )
+        if done:
+            #we have find the shortest path, now we have to return its length
+            #the last element of the list is the destination node 
+            #the length of the way is the g cost of the last node
+            return Node(openList[len(openList)-1]).g
         openList.pop(indexBest)
 
 
