@@ -35,9 +35,9 @@ def containsNode(r, c, openedlist, newg):
     #this method's function is to tell if a node with passed r and c exists in the list, if so update its Gvalue(if necessary) 
     #return true if exists and False if not
     for i in range(0, len(openedlist)):
-        if Node(openedlist[i]).c == c and Node(openedlist[i]).r == r:
+        if openedlist[i].c == c and openedlist[i].r == r:
             #the G value will be updated (if necessary)
-            Node(openedlist[i]).updateGValue(newg) 
+            openedlist[i].updateGValue(newg) 
             return True
     return False
 
@@ -46,9 +46,9 @@ def addNeighbours(openList, parentNode, rDestination, cDestination, closedList):
 #this method's function is to find the neighbours of the node in r, c and add them to the openList if they are not already in there
 # and update their g value in case we have find a shorter path to them 
 
-    r = Node(parentNode).r
-    c = Node(parentNode).c
-    nodeG = Node(parentNode).g
+    r = parentNode.r
+    c = parentNode.c
+    nodeG = parentNode.g
 
     #upper neighbour( if existent and available and non-repetitive)
     if r-1>=0 and map[r-1][c]!='X'and not containsNode(r-1, c, openList, nodeG+1) and not containsNode(r-1, c, closedList, nodeG+1):
@@ -78,18 +78,18 @@ def addNeighbours(openList, parentNode, rDestination, cDestination, closedList):
 
 def findBestNode(openList):
     #this methods find the best candidate to next move and returns its index in the open list
-    min=Node(openList[0]).getFvalue()
-    hValue = Node(openList[0]).getHvalue()
+    min=openList[0].getFvalue()
+    hValue = openList[0].h
     index = 0
     for i in range(1, len(openList)):
-        if min > Node(open[i]).getFvalue():
-            min = Node(open[i]).getFvalue()
-            hValue = Node(openList[i]).getHvalue()
+        if min > openList[i].getFvalue():
+            min = openList[i].getFvalue()
+            hValue = openList[i].h
             index = i
-        elif min == Node(open[i]).getFvalue() and hValue > Node(open[i]).getHvalue :
-            hValue = Node(openList[i]).getHvalue()
+        elif min == openList[i].getFvalue() and hValue > openList[i].h :
+            hValue = openList[i].h
             index = i
-    return i
+    return index
     
 
 def shortestPath(rStart, cStart, r2, c2):
@@ -100,15 +100,25 @@ def shortestPath(rStart, cStart, r2, c2):
     closedList = []
     startNode = Node(rStart, cStart, r2, c2, 0)
     openList.append(startNode)
-    while len(open)!=0:
+    while len(openList)!=0:
+        print("openlist:")
+        for x in range(len(openList)): 
+            print (openList[x].r, openList[x].c, openList[x].g, openList[x].h)
+        
+        print("closedlist:")
+        for x in range(len(closedList)): 
+            print (closedList[x].r, closedList[x].c, closedList[x].g, closedList[x].h)
+
         indexBest = findBestNode(openList)
-        done = addNeighbours(openList, openList[indexBest], r2, c2 )
+        print(indexBest)
+        done = addNeighbours(openList, openList[indexBest], r2, c2 , closedList)
         if done:
             #we have find the shortest path, now we have to return its length
             #the last element of the list is the destination node 
             #the length of the way is the g cost of the last node
-            return Node(openList[len(openList)-1]).g
+            return openList[len(openList)-1].g
         closedList.append(openList.pop(indexBest))
+    return -5
 
 def mapIterator():
     print("iterate")
@@ -133,7 +143,7 @@ def getInput():
 
 def main():
     getInput()
-    
+    print(shortestPath(0, 0, 0, 1))
 
 
 if __name__ == "__main__":
