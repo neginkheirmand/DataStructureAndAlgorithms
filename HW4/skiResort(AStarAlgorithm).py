@@ -9,6 +9,10 @@ m = 0
 output=[]
 
 class Node:
+    #the node has h value and g value and f = g + h
+    #the G value:  the movement cost to move from the starting point to a given square on the grid, following the path generated to get there.
+    #the H value:  the estimated movement cost to move from that given square on the grid to the final destination.
+
     def __init__(self, r, c, rDestination, cDestination, g):
         self.r = r
         self.c = c
@@ -37,12 +41,8 @@ def containsNode(r, c, openedlist, newg):
             return True
     return False
 
-def getGvalue():
-    #the G value:  the movement cost to move from the starting point to a given square on the grid, following the path generated to get there.
-    print("Gvalue")
 
-
-def addNeighbours(openList, parentNode, rDestination, cDestination):
+def addNeighbours(openList, parentNode, rDestination, cDestination, closedList):
 #this method's function is to find the neighbours of the node in r, c and add them to the openList if they are not already in there
 # and update their g value in case we have find a shorter path to them 
 
@@ -51,26 +51,26 @@ def addNeighbours(openList, parentNode, rDestination, cDestination):
     nodeG = Node(parentNode).g
 
     #upper neighbour( if existent and available and non-repetitive)
-    if r-1>=0 and map[r-1][c]!='X'and not containsNode(r-1, c, openList, nodeG+1):
+    if r-1>=0 and map[r-1][c]!='X'and not containsNode(r-1, c, openList, nodeG+1) and not containsNode(r-1, c, closedList, nodeG+1):
         openList.append(Node(r-1, c, rDestination, cDestination, nodeG+1))
         if r-1 ==rDestination and c == cDestination:
             return True
 
 
     #bottom neighbour( if existent and available and non-repetitive)
-    if r+1<n and map[r+1][c]!='x' and not containsNode(r+1, c, openList, nodeG+1):
+    if r+1<n and map[r+1][c]!='x' and not containsNode(r+1, c, openList, nodeG+1) and not containsNode(r+1, c, closedList, nodeG+1):
         openList.append(Node(r+1, c, rDestination, cDestination, nodeG+1))
         if r+1 == rDestination and c == cDestination:
             return True
 
     #left neighbour( if existent and available and non-repetitive)
-    if c-1>=0 and map[r][c-1]!='X' and not containsNode(r, c-1, openList, nodeG+1):
+    if c-1>=0 and map[r][c-1]!='X' and not containsNode(r, c-1, openList, nodeG+1) and not containsNode(r, c-1, closedList, nodeG+1):
         openList.append(Node(r, c-1, rDestination, cDestination, nodeG+1))
         if r == rDestination and c-1 == cDestination:
             return True
 
     #right neighbour( if existent and available and non-repetitive)
-    if c+1<m and map[r][c+1]!='X' and not containsNode(r, c+1, openList, nodeG+1):
+    if c+1<m and map[r][c+1]!='X' and not containsNode(r, c+1, openList, nodeG+1) and not containsNode(r, c+1, closedList, nodeG+1):
         openList.append(Node(r, c+1, rDestination, cDestination, nodeG+1))
         if r == rDestination and c+1 == cDestination:
             return True
@@ -108,10 +108,7 @@ def shortestPath(rStart, cStart, r2, c2):
             #the last element of the list is the destination node 
             #the length of the way is the g cost of the last node
             return Node(openList[len(openList)-1]).g
-        openList.pop(indexBest)
-
-
-     
+        closedList.append(openList.pop(indexBest))
 
 def mapIterator():
     print("iterate")
@@ -129,10 +126,14 @@ def getInput():
         map.append(mapRow)
         mapRow=[]
     print(map)
+    print()
+    print()
+
 
 
 def main():
     getInput()
+    
 
 
 if __name__ == "__main__":
