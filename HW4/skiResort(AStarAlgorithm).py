@@ -7,7 +7,7 @@ skiMap = []
 n=0
 m = 0
 output=[]
-
+stations = []
 class Node:
     #the node has h value and g value and f = g + h
     #the G value:  the movement cost to move from the starting point to a given square on the grid, following the path generated to get there.
@@ -103,16 +103,16 @@ def shortestPath(rStart, cStart, r2, c2):
     startNode = Node(rStart, cStart, r2, c2, 0)
     openList.append(startNode)
     while len(openList)!=0:
-        print("openlist:")
-        for x in range(len(openList)): 
-            print (openList[x].r, openList[x].c, openList[x].g, openList[x].h)
+        # print("openlist:")
+        # for x in range(len(openList)): 
+        #     print (openList[x].r, openList[x].c, openList[x].g, openList[x].h)
         
-        print("closedlist:")
-        for x in range(len(closedList)): 
-            print (closedList[x].r, closedList[x].c, closedList[x].g, closedList[x].h)
+        # print("closedlist:")
+        # for x in range(len(closedList)): 
+        #     print (closedList[x].r, closedList[x].c, closedList[x].g, closedList[x].h)
 
         indexBest = findBestNode(openList)
-        print(indexBest)
+        # print(indexBest)
         done = addNeighbours(openList, openList[indexBest], r2, c2 , closedList)
         if done:
             #we have find the shortest path, now we have to return its length
@@ -120,26 +120,49 @@ def shortestPath(rStart, cStart, r2, c2):
             #the length of the way is the g cost of the last node
             return openList[len(openList)-1].g
         closedList.append(openList.pop(indexBest))
-        print("openlist:")
-        for x in range(len(openList)): 
-            print (openList[x].r, openList[x].c, openList[x].g, openList[x].h)
+        # print("openlist:")
+        # for x in range(len(openList)): 
+        #     print (openList[x].r, openList[x].c, openList[x].g, openList[x].h)
         
-        print("closedlist:")
-        for x in range(len(closedList)): 
-            print (closedList[x].r, closedList[x].c, closedList[x].g, closedList[x].h)
-        print()
-        print()
-        print()
+        # print("closedlist:")
+        # for x in range(len(closedList)): 
+        #     print (closedList[x].r, closedList[x].c, closedList[x].g, closedList[x].h)
+        # print()
+        # print()
+        # print()
 
     return -5
 
 def mapIterator():
-    print("iterate")
+
+    global n, m
+    global skiMap
+    global stations
+    for i in range(0, n):
+        for j in range(0, m):
+            if skiMap[i][j]=='X':
+                print( "-1", end=' ')
+            elif skiMap[i][j]=='M':
+                print( "0", end=' ')
+            else:
+                #go find the path cost here and all the stations, the shortest one is the number in this house of output
+                minPath = shortestPath(i, j, stations[0][0], stations[0][1])
+                for s in range(1, len(stations)):
+                    temp = shortestPath(i, j, stations[s][0], stations[s][1])
+                    if temp<minPath:
+                        minPath= temp
+    
+                print( minPath, end=' ')
+        print()
+                
+
+
     
 
 def getInput():
     global n , m
     global skiMap
+    global stations
     data=input().split()
     n = int(data[0])
     m = int(data[1])
@@ -148,17 +171,17 @@ def getInput():
         data = input()
         for j in range(0, m):
             mapRow.append(data[j])
+            if data[j]=='M':
+                stations.append([i, j])
         skiMap.append(mapRow)
         mapRow=[]
-    print(skiMap)
-    print()
-    print()
+    # print(stations)
 
 
 
 def main():
     getInput()
-    print(shortestPath(0, 1, 5, 3))
+    mapIterator()
 
 
 if __name__ == "__main__":
