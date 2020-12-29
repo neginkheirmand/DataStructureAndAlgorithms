@@ -131,7 +131,7 @@ def shortestPath(rStart, cStart, r2, c2):
         # print()
         # print()
 
-    return -5
+    return -1
 
 def mapIterator():
 
