@@ -39,13 +39,39 @@ def getInput():
     print(output)
 
 
+def addNeighbours(node, stationList):
+    r = node.r
+    c = node.c
+    depth = node.depth
+    global skiMap
+    global output
+    global n, m
+    #upper neighbour
+    if r-1>=0 and skiMap[r-1][c]!='X' and ( output[r-1][c]==-1 or output[r-1][c]>depth+1):
+        stationList.append(Node(r-1, c, depth+1))
+    #buttom
+    if r+1<n and skiMap[r+1][c]!='X' and ( output[r+1][c]==-1 or output[r+1][c]>depth+1):
+        stationList.append(Node(r+1, c, depth+1))
+    #left
+    if c-1>=0 and skiMap[r][c-1]!='X' and ( output[r][c-1]==-1 or output[r][c-1]>depth+1):
+        stationList.append(Node(r, c-1, depth+1))
+    #ritgh
+    if c+1<m and skiMap[r][c+1]!='X' and ( output[r][c+1]==-1 or output[r][c+1]>depth+1):
+        stationList.append(Node(r, c+1, depth+1))
+
+    
+
 
 def mapIterate():
+    global stations
+    print(stations)
     while len(stations)!=0:
-        stations[0]
-
+        print(len(stations))
         
-
+        node = stations.pop(0)
+        if output[node.r][node.c]> int(node.depth) or output[node.r][node.c]==-1: 
+            output[node.r][node.c]=int(node.depth)
+        addNeighbours(node, stations)
 
 
 
@@ -53,6 +79,9 @@ def main():
     #get input from user
     getInput()
     mapIterate()
+    print("\033[1;31m")
+    print(output)
+    print("\033[0;0m")
 
 if __name__ == "__main__":
     main()
