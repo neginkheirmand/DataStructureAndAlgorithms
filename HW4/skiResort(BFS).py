@@ -36,7 +36,6 @@ def getInput():
         output.append(outputRow)
         mapRow=[]
         outputRow=[]
-    print(output)
 
 
 def addNeighbours(node, stationList):
@@ -64,24 +63,29 @@ def addNeighbours(node, stationList):
 
 def mapIterate():
     global stations
-    print(stations)
     while len(stations)!=0:
-        print(len(stations))
-        
         node = stations.pop(0)
         if output[node.r][node.c]> int(node.depth) or output[node.r][node.c]==-1: 
             output[node.r][node.c]=int(node.depth)
         addNeighbours(node, stations)
 
+def printOutput():
+    global output
+    global n, m
+    for i in range(0, n):
+        for j in range(0, m):
+            print( output[i][j], end=' ')
+        print()
 
 
 def main():
     #get input from user
     getInput()
     mapIterate()
-    print("\033[1;31m")
-    print(output)
-    print("\033[0;0m")
+    printOutput()
+    # print("\033[1;31m")
+    # print(output)
+    # print("\033[0;0m")
 
 if __name__ == "__main__":
     main()
