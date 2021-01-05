@@ -21,6 +21,7 @@ def getInput():
     global skiMap
     global stations
     data=input().split()
+
     n = int(data[0])
     m = int(data[1])
     mapRow = []
@@ -46,16 +47,16 @@ def addNeighbours(node, stationList):
     global output
     global n, m
     #upper neighbour
-    if r-1>=0 and skiMap[r-1][c]!='X' and ( output[r-1][c]==-1 or output[r-1][c]>depth+1):
+    if r-1>=0 and skiMap[r-1][c]!='X' and ( output[r-1][c]==-1 or output[r-1][c]>depth+1 ):
         stationList.append(Node(r-1, c, depth+1))
     #buttom
-    if r+1<n and skiMap[r+1][c]!='X' and ( output[r+1][c]==-1 or output[r+1][c]>depth+1):
+    if r+1<n and skiMap[r+1][c]!='X' and ( output[r+1][c]==-1 or output[r+1][c]>depth+1 ):
         stationList.append(Node(r+1, c, depth+1))
     #left
-    if c-1>=0 and skiMap[r][c-1]!='X' and ( output[r][c-1]==-1 or output[r][c-1]>depth+1):
+    if c-1>=0 and skiMap[r][c-1]!='X' and ( output[r][c-1]==-1 or output[r][c-1]>depth+1 ):
         stationList.append(Node(r, c-1, depth+1))
     #ritgh
-    if c+1<m and skiMap[r][c+1]!='X' and ( output[r][c+1]==-1 or output[r][c+1]>depth+1):
+    if c+1<m and skiMap[r][c+1]!='X' and ( output[r][c+1]==-1 or output[r][c+1]>depth+1 ):
         stationList.append(Node(r, c+1, depth+1))
 
     
@@ -65,9 +66,9 @@ def mapIterate():
     global stations
     while len(stations)!=0:
         node = stations.pop(0)
-        if output[node.r][node.c]> int(node.depth) or output[node.r][node.c]==-1: 
-            output[node.r][node.c]=int(node.depth)
-        addNeighbours(node, stations)
+        if output[node.r][node.c] > int(node.depth) or output[node.r][node.c]==-1: 
+            output[node.r][node.c] = int(node.depth)
+            addNeighbours(node, stations)
 
 def printOutput():
     global output
