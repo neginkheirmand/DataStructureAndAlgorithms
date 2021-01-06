@@ -84,9 +84,6 @@ def main():
     getInput()
     mapIterate()
     printOutput()
-    # print("\033[1;31m")
-    # print(output)
-    # print("\033[0;0m")
 
 if __name__ == "__main__":
     main()
