@@ -77,7 +77,25 @@ def main():
                 else:
                     #add the new house to the dic
                     movesDic[newtupleState]= [0,1,0,0]
-            print(movesDic)
+        #now the movesDic stores the edges of the graph
+        #we have to the number of one time passed edges and other more repeated edged, just have in acount each edges is counted two times, since we store the
+        #nodes instead of the actual edges
+        print(movesDic)
+        oneRepetition = 0
+        moreThanOne = 0
+        newEdge = 0
+        for key in movesDic:
+            listMove = movesDic[key]
+            for k in range(0, len(listMove)):
+                if listMove[k] == 1:
+                    oneRepetition+=1
+                elif listMove[k] != 1 and listMove[k] != 0:
+                    moreThanOne+=listMove[k]
+                    newEdge+=1
+        answer = newEdge*4
+        answer+=moreThanOne
+        answer+=oneRepetition*5
+        print(int(answer/2))
 
 
 
