@@ -5,6 +5,7 @@ endNode = 0
 Length = 0
 dictionaryOfNodes={}
 
+finalPath = []
 
 def existsInList(nodes, node):
     for i in range(0, len(nodes)):
@@ -37,6 +38,36 @@ def getInput():
     endNode = int(data[1])
     Length = int(data[2])
 
+def getCost(array, value):
+    for i in range(0, len(array)):
+        if array[i][0]==value:
+            return array[i][1]
+
+def getPathCost(path):
+    global dictionaryOfNodes
+    totalCost = 0
+    for i in range(1, len(path)):
+        neighboursOfNode = dictionaryOfNodes[path[i-1]]
+        totalCost+=getCost(neighboursOfNode, path[i] )
+    return totalCost
+
+def printOutput(exactPath, costPath):
+    global Length
+    if len(exactPath)==Length+1:
+        for i in range(0, len(exactPath)):
+            print(exactPath[i], end = ' ')
+        print(costPath)
+        return
+    global finalPath
+    if len(finalPath)!=0:
+        for i in range(0, len(finalPath)):
+            print(finalPath[i], end = ' ')
+        print(getPathCost(finalPath))
+        return
+    else:
+        print("Impossible")
+
+
 
 def runBFalgorithm():
     global numEdges, dictionaryOfNodes
@@ -53,6 +84,9 @@ def runBFalgorithm():
         exactPath[key] = [] 
     #but the cost of the start node must be 0
     global startNode
+    global endNode
+    global Length
+    global finalPaths
     costPath[startNode]=0
     exactPath[startNode]= [startNode]
 
@@ -77,11 +111,12 @@ def runBFalgorithm():
                         listPathNode = exactPath[key].copy()
                         listPathNode.append(neighbour)
                         exactPath[neighbour] = listPathNode
+                        if neighbour == endNode:
+                            if len(exactPath[key]) == Length:
+                                finalPath=exactPath[neighbour]
         if stopFlag:
             break
-    global endNode
-    print(exactPath[endNode])
-    print(costPath[endNode])
+    printOutput(exactPath[endNode], costPath[endNode])
     return 
              
 
