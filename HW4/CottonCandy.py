@@ -38,20 +38,6 @@ def getInput():
     Length = int(data[2])
 
 
-# def getIndex(value, listNodes):
-#     for i in range(0, len(listNodes)):
-#         if listNodes[i]==value:
-#             return i
-    
-
-# def getNeighbours(node):
-#     global edges
-#     dictNeighboursCost = {}
-#     for i in range(0, len(edges)):
-#         if edges[i][0]==node:
-#             dictNeighboursCost[edges[i][1]]=edges[i][2]
-#     return dictNeighboursCost
-
 def runBFalgorithm():
     global numEdges, dictionaryOfNodes
     #we know there can be atmost |v|-1 edges in a path from s to e since we can |v| vertices, so we repeat the procedure above |v|-1 times and stop only if nothing 
@@ -60,10 +46,15 @@ def runBFalgorithm():
     # we create the dictionary with nodes and costs of them  (starting with infinity- 99999 should be enough -)
     costPath = {}
     for key in dictionaryOfNodes:
-        costPath[key]=  99999
+        costPath[key]= 99999
+    #now to save the exact path
+    exactPath = {}
+    for key in dictionaryOfNodes:
+        exactPath[key] = [] 
     #but the cost of the start node must be 0
     global startNode
     costPath[startNode]=0
+    exactPath[startNode]= [startNode]
 
     stopFlag = False
     for i in range(0, numRepetition):
@@ -71,21 +62,27 @@ def runBFalgorithm():
         #here we loop over the nodes and change their costs (if possible) and if no values where changed we break the loop using stopFlag
         for key in costPath:
             #first we make sure the node is accessible 
-            if costPath[key]==99999:
-                continue
-            #now we iterate over its neighbours and update their cost if needed
-            #so we need the neighbours of this node (the ones connected to this node by outgoing edges of the current node)
-            neighbours = dictionaryOfNodes[key]
-            #neighbours is a list of all the neighbors of this current node and the cost of the edge to that secundary node [   [neighbour1, cost1], [neighbour2, cost2] , ...   ]
-            for j in range(0, len(neighbours)):
-                neighbour = neighbours[j][0]
-                cost = neighbours[j][1]
-                if cost + costPath[key] < costPath[neighbour]:
-                    costPath[neighbour]=cost + costPath[key]
-                    stopFlag = False
+            if costPath[key]!=99999:    
+                #now we iterate over its neighbours and update their cost if needed
+                #so we need the neighbours of this node (the ones connected to this node by outgoing edges of the current node)
+                neighbours = dictionaryOfNodes[key]
+                #neighbours is a list of all the neighbors of this current node and the cost of the edge to that secundary node [   [neighbour1, cost1], [neighbour2, cost2] , ...   ]
+                for j in range(0, len(neighbours)):
+                    neighbour = neighbours[j][0]
+                    cost = neighbours[j][1]
+                    if cost + costPath[key] < costPath[neighbour]:
+                        costPath[neighbour]=cost + costPath[key]
+                        stopFlag = False
+                        #but we also update the exact path 
+                        listPathNode = exactPath[key].copy()
+                        listPathNode.append(neighbour)
+                        exactPath[neighbour] = listPathNode
         if stopFlag:
             break
-    return
+    global endNode
+    print(exactPath[endNode])
+    print(costPath[endNode])
+    return 
              
 
 
@@ -97,11 +94,7 @@ def runBFalgorithm():
 def main():
     #get input from user
     getInput()
-    global dictionaryOfNodes
-    print(len(dictionaryOfNodes))
-    dictionary = {}
-    dictionary["key"]="hi"
-    print(len(dictionary))
+    runBFalgorithm()
 
 if __name__ == "__main__":
     main()
