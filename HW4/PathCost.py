@@ -80,7 +80,6 @@ def main():
         #now the movesDic stores the edges of the graph
         #we have to the number of one time passed edges and other more repeated edged, just have in acount each edges is counted two times, since we store the
         #nodes instead of the actual edges
-        print(movesDic)
         oneRepetition = 0
         moreThanOne = 0
         newEdge = 0
